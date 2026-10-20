@@ -30,13 +30,15 @@ Favoris et volumes sont conservés dans localStorage. Les fichiers personnels so
 
 Après une première visite complète en HTTPS ou localhost, attendre **« Prête pour vos nuits hors ligne »**. Les 32 sons et tous les fichiers nécessaires sont alors en cache. Le site peut être rechargé sans réseau. Les imports restent dans IndexedDB et ne dépendent pas du cache réseau.
 
-Le navigateur peut supprimer ses données en cas de manque d’espace, d’effacement manuel ou de navigation privée. Conserver les fichiers personnels originaux. Les paramètres et sons ne sont pas synchronisés entre appareils. Pour mettre à jour les ressources du site, augmenter le nom de cache `la-veillee-v1` dans `sw.js` et `js/app.js`.
+Le navigateur peut supprimer ses données en cas de manque d’espace, d’effacement manuel ou de navigation privée. Conserver les fichiers personnels originaux. Les paramètres et sons ne sont pas synchronisés entre appareils. Pour mettre à jour les ressources du site, augmenter le nom de cache `la-veillee-v2` dans `sw.js` et `js/app.js`.
 
 ## Sons disponibles et provenance
 
-**32 sons réellement présents**, au format WAV mono PCM 16 bits, 22 050 Hz, environ 4,6 Mo au total. Ce sont des créations procédurales originales, sans enregistrement externe. `SOUND_SOURCES.md` détaille chaque fichier. Le script Python standard `scripts/generate_audio.py` permet de les régénérer sans dépendance.
+**32 sons réellement présents**, au format WAV mono PCM 16 bits, 22 050 Hz, pour environ **7,3 Mo** au total. Depuis la mise à jour CC0, 25 effets ou ambiances proviennent de Freesound avec une licence CC0 1.0 vérifiée sur leur fiche ; 7 effets musicaux ou fantastiques restent des créations procédurales originales. Tous les sons sont fournis dans le dépôt et ne chargent aucun fichier audio externe.
 
-Les imitations organiques (loup, coq, rires, chèvre, applaudissements…) sont volontairement stylisées et ne remplacent pas des enregistrements réalistes. Le « Cri théâtral » est une alternative synthétique originale, pas le cri Wilhelm. Aucun élément du catalogue n’est un bouton sans audio ; aucun fichier manquant à la livraison.
+`SOUND_SOURCES.md`, `credits.html` et `assets/licenses/sources.json` détaillent les auteurs, les fiches originales, la licence, les durées et les traitements. Les versions importées sont les préécoutes MP3 haute qualité de Freesound, converties en WAV ; pas les masters originaux. Les effets longs ont été raccourcis, les volumes normalisés, et les deux ambiances raccordées pour la boucle.
+
+Le script Python standard `scripts/generate_audio.py` régénère uniquement les créations synthétiques et préserve les fichiers CC0 importés. Le « Cri théâtral » utilise un enregistrement CC0, distinct du cri Wilhelm. Aucun bouton n’est livré sans audio.
 
 ## Architecture
 
@@ -46,12 +48,15 @@ css/style.css              Thème sombre, responsive, mouvement réduit
 js/app.js                  Recherche, catégories, favoris, import et interface
 js/audio.js                Web Audio, deux bus, exclusivité et superposition
 js/sounds.js               Catalogue modifiable et métadonnées
+js/sources.js              Provenance et durées des sons CC0
+credits.html               Crédits accessibles depuis l’application
+assets/licenses/sources.json  Sources, licences, traitements et empreintes
 js/storage.js              localStorage et IndexedDB
 assets/audio/*.wav         32 fichiers audio locaux
 assets/village.svg         Illustration originale du village
 sw.js                      Cache hors ligne, chemins relatifs
 scripts/generate_audio.py  Synthèse reproductible des fichiers
- tests/core.test.js        Tests automatisés sans dépendance
+tests/core.test.js        Tests automatisés sans dépendance
 ```
 
 Pour ajouter un son livré avec le site : placer le fichier dans `assets/audio/`, ajouter ses métadonnées dans `js/sounds.js`, l’ajouter au précache `sw.js`, incrémenter le cache, et renseigner sa provenance et sa licence dans `SOUND_SOURCES.md`.
@@ -73,11 +78,13 @@ node --test tests/*.test.js
 
 Les tests vérifient le catalogue et l’amplitude des 32 WAV, la superposition, l’exclusivité des boucles, le STOP y compris pendant le chargement, les volumes indépendants, un fichier absent suivi d’un son valide et la persistance des préférences. Le moteur audio est testé avec une doublure Web Audio ; cela ne valide pas la restitution sur un haut-parleur physique.
 
-Le lancement d’un serveur et les tests dans un navigateur ont été bloqués par les permissions de l’environnement de développement. Les parcours visuels, le mode hors ligne, IndexedDB, l’import/suppression et le comportement sur appareil mobile restent à vérifier dans un navigateur réel. La grille prévoit 2 colonnes sur les écrans très étroits, 3 sur téléphone, puis 4 ou 5 selon l’espace disponible ; le STOP reste flottant sur mobile.
+La mise à jour CC0 a également été testée dans Chromium avec Web Audio et IndexedDB réels : 17 scénarios réussis, dont le décodage des 32 fichiers, lecture/superposition, boucles exclusives, STOP, recherche/favoris, volumes, import/renommage/suppression, persistance après rechargement, mode hors ligne et fichier absent. Aucun événement pageerror n’a été observé. L’absence de défilement horizontal a été vérifiée à 320, 360, 390, 768 et 1440 px, avec STOP visible sur mobile. Ces tests sur navigateur de bureau en mode mobile ne remplacent pas une écoute sur un téléphone physique, notamment sous Safari iOS.
+
+Le test navigateur optionnel `python tests/browser_qa.py` nécessite Playwright et Chromium installés dans l’environnement de développement ; l’application elle-même ne nécessite aucune dépendance. Les 7 tests Node se lancent aussi avec `nodetests/core.test.js`. Le test de provenance compare les empreintes SHA-256 des 25 fichiers CC0 au manifeste.
 
 ## Limites connues
 
-- Les sons sont synthétiques, en particulier les imitations de voix et d’animaux.
+- Sept effets musicaux ou fantastiques restent synthétisés ; les 25 autres sont des fichiers CC0 importés. La fidélité des préécoutes MP3 source et le format mono limitent la qualité par rapport aux masters.
 - La lecture dépend des formats pris en charge par le navigateur ; WAV PCM et MP3 sont conseillés pour les imports.
 - iOS et Android peuvent interrompre l’audio lors du verrouillage de l’écran ou d’un appel. Le premier clic autorise la lecture ; une restriction du navigateur produit un message invitant à réessayer.
 - Une ressource absente ou illisible est désactivée explicitement sans bloquer les autres sons. Recharger la page après réparation du fichier.

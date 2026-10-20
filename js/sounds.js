@@ -1,3 +1,4 @@
+import { sourcedSounds } from './sources.js';
 /* Catalogue modifiable : les chemins restent relatifs à index.html. */
 export const categories = [
   { id: 'ambiances', name: 'Ambiances', icon: '☾', description: 'Installez le décor. La nuit a ses secrets.' },
@@ -39,4 +40,4 @@ const rows = [
  ['goat','Cri de chèvre','humour','🐐',false,.7,2],
  ['crickets','Grillons gênants','humour','🦗',false,.65,3]
 ];
-export const sounds = rows.map(([id,name,category,icon,loop,volume,duration]) => ({id,name,category,icon,loop,volume,duration,src:`assets/audio/${id}.wav`,origin:'Synthèse originale'}));
+export const sounds = rows.map(([id,name,category,icon,loop,volume,duration]) => ({id,name,category,icon,loop,volume,duration,src:`assets/audio/${id}.wav`,origin:'Synthèse originale',...sourcedSounds[id]}));

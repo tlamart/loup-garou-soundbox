@@ -64,3 +64,19 @@ test('persistance des favoris et volumes, stockage indisponible et JSON corrompu
   globalThis.localStorage = { getItem(){throw Error();},setItem(){throw Error();} };
   assert.equal(savePreferences(prefs),false); assert.deepEqual(loadPreferences(),{});
 });
+
+test('les 25 sources CC0 correspondent aux fichiers livrés et à leurs durées', async () => {
+  const { createHash } = await import('node:crypto');
+  const sources = JSON.parse(readFileSync(new URL('../assets/licenses/sources.json', import.meta.url)));
+  assert.equal(Object.keys(sources).length,25);
+  assert.equal(sounds.filter(s => s.license === 'CC0 1.0').length,25);
+  for (const [id, source] of Object.entries(sources)) {
+    const s=sounds.find(s => s.id===id);
+    const bytes=readFileSync(new URL(`../${s.src}`,import.meta.url));
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), source.sha256);
+    assert.equal(s.duration,source.duration);
+    assert.ok(source.sourceUrl.startsWith('https://freesound.org/people/'));
+    assert.equal(source.licenseUrl,'https://creativecommons.org/publicdomain/zero/1.0/');
+    assert.ok(source.licenseEvidence.includes('publicdomain/zero/1.0/'));
+  }
+});

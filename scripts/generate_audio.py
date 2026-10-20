@@ -1,7 +1,8 @@
 """Original procedural sound designs. Python stdlib only; deterministic PCM WAV."""
-import math, random, wave, struct, pathlib
+import math, random, wave, struct, pathlib, json
 R=22050
 ROOT=pathlib.Path(__file__).resolve().parents[1]
+IMPORTED = set(json.loads((ROOT/'assets/licenses/sources.json').read_text())) if (ROOT/'assets/licenses/sources.json').exists() else set()
 rng=random.Random(42)
 D={'wolf':4.2,'rooster':2.5,'owl':2.4,'night':12,'wind':10,'bells':4.5,'thunder':4,'witch':2.8,'seer':3,'cupid':1.2,'hunter':1.5,'girl':2.5,'thief':1.8,'shield':2,'flute':3.8,'crow':2.2,'clap':3,'boo':2.5,'death':3.5,'knell':5,'heart':4,'drum':3,'clock':4,'gavel':1,'village':4,'wolves':4,'fail':3,'scream':1.8,'scratch':1,'evil':3,'goat':2,'crickets':3}
 def osc(f,t):return math.sin(2*math.pi*f*t)
@@ -46,6 +47,8 @@ def render(k,t,d,n,low):
  if k=='goat':return env*max(0,math.sin(t*3))*(osc(380+65*math.sin(t*38),t)+.3*osc(760,t))
  return 0
 for k,d in D.items():
+ if k in IMPORTED:
+  print(k, 'conservé : fichier CC0 importé'); continue
  low=0; data=[]
  for i in range(int(R*d)):
   t=i/R;n=rng.uniform(-1,1);low=.97*low+.03*n

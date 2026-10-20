@@ -8,7 +8,8 @@ const engine = new AudioEngine(clamp(preferences.effects, .8), clamp(preferences
 const favorites = new Set(Array.isArray(preferences.favorites) ? preferences.favorites.filter(id => typeof id === 'string') : []);
 let catalogue = [...sounds], category = 'all', favoritesOnly = false, query = '', editingId = null, toastTimer;
 const unavailable = new Set();
-const normalize = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+const sourceLabel = sound => sound.custom ? 'PERSO' : sound.license ? 'CC0' : 'SYNTHÈSE';
+const normalize = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/œ/g, 'oe').replace(/æ/g, 'ae');
 function toast(message) {
   $('#toast').textContent = message; $('#toast').hidden = false;
   clearTimeout(toastTimer); toastTimer = setTimeout(() => { $('#toast').hidden = true; }, 6500);
@@ -50,8 +51,8 @@ function render() {
     star.onclick = () => { favorites.has(sound.id) ? favorites.delete(sound.id) : favorites.add(sound.id); persist(); render(); };
     const play = element('button', 'play-sound'); play.type = 'button';
     play.setAttribute('aria-label', `${sound.loop ? 'Démarrer ou arrêter' : 'Jouer'} : ${sound.name}`);
-    play.title = sound.custom ? 'Fichier personnel · stocké sur cet appareil' : 'Création synthétisée originale (interprétation stylisée)';
-    play.append(element('span', 'sound-icon', sound.icon), element('span', 'sound-name', sound.name), element('span', 'sound-meta', sound.loop ? '↻ EN BOUCLE' : `${sound.duration ? `${sound.duration.toFixed(1).replace('.', ',')} s` : 'Audio personnel'} · ${sound.custom ? 'PERSO' : 'SYNTHÈSE'}`));
+    play.title = sound.custom ? 'Fichier personnel · stocké sur cet appareil' : sound.license ? `${sound.author} · ${sound.license} · Fichier local` : 'Création synthétisée originale (interprétation stylisée)';
+    play.append(element('span', 'sound-icon', sound.icon), element('span', 'sound-name', sound.name), element('span', 'sound-meta', sound.loop ? `↻ EN BOUCLE · ${sourceLabel(sound)}` : `${sound.duration ? `${sound.duration.toFixed(1).replace('.', ',')} s` : 'Audio personnel'} · ${sourceLabel(sound)}`));
     play.onclick = async () => {
       try { await engine.play(sound); }
       catch (error) {
@@ -86,7 +87,7 @@ function updatePlayback() {
     else if (active) card.querySelector('.sound-meta').textContent = '♫ EN LECTURE';
     else {
       const sound = catalogue.find(s => s.id === card.dataset.id);
-      card.querySelector('.sound-meta').textContent = sound.loop ? '↻ EN BOUCLE' : `${sound.duration ? `${sound.duration.toFixed(1).replace('.', ',')} s` : 'Audio personnel'} · ${sound.custom ? 'PERSO' : 'SYNTHÈSE'}`;
+      card.querySelector('.sound-meta').textContent = sound.loop ? `↻ EN BOUCLE · ${sourceLabel(sound)}` : `${sound.duration ? `${sound.duration.toFixed(1).replace('.', ',')} s` : 'Audio personnel'} · ${sourceLabel(sound)}`;
     }
   }
   const loop = catalogue.find(s => s.id === engine.loopId);
@@ -152,7 +153,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   navigator.serviceWorker.register('./sw.js').then(async registration => {
     const ready = await navigator.serviceWorker.ready;
     const updateStatus = async () => {
-      const cache = await caches.open('la-veillee-v1');
+      const cache = await caches.open('la-veillee-v2');
       $('#offline-status').textContent = await cache.match(new URL('assets/audio/crickets.wav', location.href)) ? '✓ Prête pour vos nuits hors ligne' : '◌ Mode hors ligne en préparation';
     };
     navigator.serviceWorker.addEventListener('message', event => { if (event.data === 'offline-ready') updateStatus().catch(() => {}); });
