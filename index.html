@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101219">
+  <meta name="description" content="La bande-son de vos nuits à Thiercelieux. Soundboard gratuit et hors ligne pour Les Loups-Garous.">
+  <title>La Veillée — Soundbox Loup-Garou</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#catalogue">Aller aux sons</a>
+  <header class="topbar"><a class="brand" href="./" aria-label="La Veillée, accueil"><span class="brand-mark">☾</span><span>LA VEILLÉE<small>SOUNDBOX LOUP-GAROU</small></span></a><div class="header-right"><span class="local-badge"><i></i> 100 % local</span><button id="add-sound" class="button secondary"><span>＋</span> Ajouter un son</button></div></header>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy"><div class="eyebrow"><span></span> LE VILLAGE S’ENDORT…</div><h1>Faites frissonner<br>votre <em>veillée.</em></h1><p>Un hurlement dans la nuit. Une potion qui bouillonne.<br class="desktop-break"> Toute l’atmosphère de Thiercelieux, au bout des doigts.</p><div class="hero-meta"><span>✦ <b id="total-count">32</b> sons à explorer</span><span>♧ Sans connexion</span><span>♫ À vous de jouer</span></div></div>
+      <div class="hero-art" aria-hidden="true"><img src="assets/village.svg" alt=""><span class="art-caption">THIERCELIEUX · UNE NUIT COMME LES AUTRES</span></div>
+    </section>
+    <div class="workspace">
+      <section id="catalogue" class="library" aria-label="Bibliothèque sonore">
+        <div class="library-toolbar"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Chercher un son, un personnage…" aria-label="Rechercher un son"><kbd>/</kbd></label><button id="favorites" class="favorite-filter" aria-pressed="false">☆ <span>Favoris</span><b id="favorites-count">0</b></button></div>
+        <nav id="categories" class="categories" aria-label="Catégories de sons"></nav>
+        <div class="section-heading"><div><h2 id="category-title">Tous les sons</h2><p id="category-description">Les petits bruits font les grandes histoires.</p></div><span id="result-count" class="count"></span></div>
+        <div id="sound-grid" class="sound-grid"></div>
+        <div id="empty-state" class="empty-state" hidden><span>✧</span><h3 id="empty-title">Le silence règne…</h3><p id="empty-description">Essayez une autre recherche.</p></div>
+        <p class="catalogue-note">✧ Créations sonores synthétisées · Cliquez pour jouer, recliquez sur une boucle pour l’arrêter.</p>
+      </section>
+      <aside class="mixer" aria-label="Commandes audio"><div class="mixer-heading"><span>LE MÉLANGEUR</span><span aria-hidden="true">≋</span></div><div class="now-playing"><span class="live-dot"></span><span id="play-status">Le village est silencieux</span></div><div class="volume-control"><label for="effects-volume"><span>♫ &nbsp; Effets sonores</span><output id="effects-value" for="effects-volume">80 %</output></label><input id="effects-volume" type="range" min="0" max="100" value="80"><div class="range-labels"><span>Discret</span><span>Théâtral</span></div></div><div class="volume-control"><label for="ambience-volume"><span>☾ &nbsp; Ambiances</span><output id="ambience-value" for="ambience-volume">45 %</output></label><input id="ambience-volume" type="range" min="0" max="100" value="45"><div class="range-labels"><span>Un murmure</span><span>La pleine lune</span></div></div><button id="stop-all" class="stop-button"><span aria-hidden="true">■</span> Tout arrêter <kbd>Échap</kbd></button><p class="mixer-hint">Le silence aussi fait partie du jeu.</p><div class="night-tip"><span>☽</span><div><strong>Le conseil du meneur</strong><p>Lancez l’ambiance nocturne, puis faites entrer vos personnages. Les effets se superposent à la nuit.</p></div></div><div id="offline-status" class="offline-status">◌ Préparation du mode hors ligne…</div></aside>
+    </div>
+  </main>
+  <footer><span>☾ &nbsp; La Veillée <span class="footer-separator">/</span> Pour les meneurs d’histoires.</span><span>Création indépendante · Non affiliée aux auteurs du jeu.</span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="sound-dialog"><form id="sound-form"><div class="dialog-heading"><div><span class="eyebrow">VOTRE TOUCHE PERSONNELLE</span><h2 id="dialog-title">Ajouter un son</h2></div><button type="button" id="close-dialog" class="icon-button" aria-label="Fermer">×</button></div><label>Nom du son<input id="sound-name" maxlength="55" required placeholder="Ex. La porte de la taverne"></label><label>Catégorie<select id="sound-category"><option value="ambiances">Ambiances</option><option value="personnages">Personnages</option><option value="evenements">Événements</option><option value="humour">Humour</option></select></label><label id="file-label" class="file-label">Fichier audio <input id="sound-file" type="file" accept="audio/*,.wav,.mp3,.ogg,.m4a,.aac,.flac"><small>WAV, MP3, OGG… · 15 Mo maximum · Stocké sur cet appareil.</small></label><label class="checkbox-label"><input id="sound-loop" type="checkbox"> Jouer en boucle (ambiance exclusive)</label><p id="form-message" role="alert"></p><div class="dialog-actions"><button type="button" id="cancel-dialog" class="button secondary">Annuler</button><button type="submit" id="save-sound" class="button primary">Ajouter à la veillée</button></div></form></dialog>
+</body>
+</html>
