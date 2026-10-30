@@ -4,6 +4,7 @@ export const categories = [
   { id: 'ambiances', name: 'Ambiances', icon: '☾', description: 'Installez le décor. La nuit a ses secrets.' },
   { id: 'personnages', name: 'Personnages', icon: '✧', description: 'À chaque rôle, son entrée en scène.' },
   { id: 'evenements', name: 'Événements', icon: '⚑', description: 'Donnez du relief aux moments décisifs.' },
+  { id: 'halloween', name: 'Halloween', icon: '🎃', description: 'Une porte frappe. Une voix fredonne. Qui ose entrer ?' },
   { id: 'humour', name: 'Humour', icon: '☺', description: 'Même les nuits sombres ont leurs petits ratés.' }
 ];
 const rows = [
@@ -38,6 +39,18 @@ const rows = [
  ['scratch','Record scratch','humour','💿',false,.65,1],
  ['evil','Rire diabolique','humour','😈',false,.65,3],
  ['goat','Cri de chèvre','humour','🐐',false,.7,2],
- ['crickets','Grillons gênants','humour','🦗',false,.65,3]
+ ['crickets','Grillons gênants','humour','🦗',false,.65,3],
+ ['hw-scream','Cri strident','halloween','😱',false,.5,3.76],
+ ['hw-child','Rire d’enfant','halloween','🧒',false,.65,5],
+ ['hw-song','Chansonnette','halloween','🎵',false,.65,20],
+ ['hw-thunder','Coup de tonnerre','halloween','⚡',false,.6,13.829],
+ ['hw-evil','Rire diabolique','halloween','😈',false,.65,3.847],
+ ['hw-glass','Verre qui se casse','halloween','🥂',false,.6,4],
+ ['hw-saw','Scie','halloween','🪚',false,.6,7],
+ ['hw-chainsaw','Tronçonneuse','halloween','⚙️',false,.55,9],
+ ['hw-knock','Frappe à la porte','halloween','🚪',false,.7,6],
+ ['hw-creak','Porte qui grince','halloween','🗝️',false,.65,4],
+ ['hw-chains','Chaînes hantées','halloween','⛓️',false,.65,4],
+ ['hw-ghost','Souffle spectral','halloween','👻',false,.65,7]
 ];
 export const sounds = rows.map(([id,name,category,icon,loop,volume,duration]) => ({id,name,category,icon,loop,volume,duration,src:`assets/audio/${id}.wav`,origin:'Synthèse originale',...sourcedSounds[id]}));

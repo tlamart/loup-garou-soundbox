@@ -199,5 +199,104 @@ export const sourcedSounds = {
     "sourceUrl": "https://freesound.org/people/Rickmk2/sounds/162195/",
     "license": "CC0 1.0",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "hw-child": {
+    "duration": 3.93,
+    "origin": "Freesound · CC0",
+    "author": "Teumova",
+    "sourceUrl": "https://freesound.org/people/Teumova/sounds/439667/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "hw-song": {
+    "duration": 20.0,
+    "origin": "Freesound · CC0",
+    "author": "AlucardsBride",
+    "sourceUrl": "https://freesound.org/people/AlucardsBride/sounds/193939/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "hw-glass": {
+    "duration": 3.757,
+    "origin": "Freesound · CC0",
+    "author": "reg7783",
+    "sourceUrl": "https://freesound.org/people/reg7783/sounds/204185/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "hw-saw": {
+    "duration": 6.908,
+    "origin": "Freesound · CC0",
+    "author": "Kate_is_yellow",
+    "sourceUrl": "https://freesound.org/people/Kate_is_yellow/sounds/708202/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "hw-chainsaw": {
+    "duration": 8.404,
+    "origin": "Freesound · CC0",
+    "author": "Hard3eat",
+    "sourceUrl": "https://freesound.org/people/Hard3eat/sounds/351775/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "hw-knock": {
+    "duration": 5.991,
+    "origin": "Freesound · CC0",
+    "author": "Fabrizio84",
+    "sourceUrl": "https://freesound.org/people/Fabrizio84/sounds/458007/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "hw-creak": {
+    "duration": 3.265,
+    "origin": "Freesound · CC0",
+    "author": "Sandwichbill",
+    "sourceUrl": "https://freesound.org/people/Sandwichbill/sounds/842232/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "hw-chains": {
+    "duration": 2.907,
+    "origin": "Freesound · CC0",
+    "author": "evantheblonde",
+    "sourceUrl": "https://freesound.org/people/evantheblonde/sounds/368995/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "hw-ghost": {
+    "duration": 6.276,
+    "origin": "Freesound · CC0",
+    "author": "Argon098",
+    "sourceUrl": "https://freesound.org/people/Argon098/sounds/338344/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "hw-scream": {
+    "duration": 3.76,
+    "origin": "Freesound · CC0",
+    "author": "freesound",
+    "sourceUrl": "https://freesound.org/people/freesound/sounds/50156/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "src": "assets/audio/scream.wav"
+  },
+  "hw-thunder": {
+    "duration": 13.829,
+    "origin": "Freesound · CC0",
+    "author": "Dave_Girtsman",
+    "sourceUrl": "https://freesound.org/people/Dave_Girtsman/sounds/332543/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "src": "assets/audio/thunder.wav"
+  },
+  "hw-evil": {
+    "duration": 3.847,
+    "origin": "Freesound · CC0",
+    "author": "ckvoiceover",
+    "sourceUrl": "https://freesound.org/people/ckvoiceover/sounds/401332/",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "src": "assets/audio/evil.wav"
   }
 };
