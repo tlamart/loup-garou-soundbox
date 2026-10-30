@@ -35,6 +35,7 @@ function render() {
   $('#favorites').setAttribute('aria-pressed', String(favoritesOnly));
   $('#favorites-count').textContent = catalogue.filter(s => favorites.has(s.id)).length;
   $('#total-count').textContent = catalogue.length;
+  $('.library').classList.toggle('halloween-mode', category === 'halloween');
   const info = categories.find(c => c.id === category);
   $('#category-title').textContent = favoritesOnly ? 'Vos favoris' : (info?.name || 'Tous les sons');
   $('#category-description').textContent = favoritesOnly ? 'Vos complices pour une nuit mémorable.' : (info?.description || 'Les petits bruits font les grandes histoires.');
@@ -153,7 +154,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   navigator.serviceWorker.register('./sw.js').then(async registration => {
     const ready = await navigator.serviceWorker.ready;
     const updateStatus = async () => {
-      const cache = await caches.open('la-veillee-v2');
+      const cache = await caches.open('la-veillee-v3');
       $('#offline-status').textContent = await cache.match(new URL('assets/audio/crickets.wav', location.href)) ? '✓ Prête pour vos nuits hors ligne' : '◌ Mode hors ligne en préparation';
     };
     navigator.serviceWorker.addEventListener('message', event => { if (event.data === 'offline-ready') updateStatus().catch(() => {}); });

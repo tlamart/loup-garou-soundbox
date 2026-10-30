@@ -12,13 +12,13 @@ checks=[]
 def ok(name):checks.append(name);print('PASS',name,flush=True)
 try:
  with sync_playwright() as p:
-  browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--disable-dev-shm-usage'])
+  browser=p.chromium.launch(executable_path=__import__('os').environ.get('CHROMIUM_PATH','/usr/bin/chromium'),headless=True,args=['--no-sandbox','--disable-dev-shm-usage'])
   context=browser.new_context(viewport={'width':1440,'height':1000})
   page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
-  page.goto(url);page.wait_for_selector('.sound-card');assert page.locator('.sound-card').count()==32
-  assert page.locator('.is-active').count()==0;ok('32 boutons, aucun démarrage automatique')
+  page.goto(url);page.wait_for_selector('.sound-card');assert page.locator('.sound-card').count()==44
+  assert page.locator('.is-active').count()==0;ok('44 boutons, aucun démarrage automatique')
   decoded=page.evaluate('''async () => { const {sounds}=await import('./js/sounds.js'); const c=new AudioContext(); const results=[]; for(const s of sounds) {const r=await fetch(s.src);if(!r.ok)throw Error(s.id);const b=await c.decodeAudioData(await r.arrayBuffer());if(b.duration<=0)throw Error(s.id);results.push(s.id);} await c.close();return results;}''')
-  assert len(decoded)==32;ok('32 fichiers réellement décodés par Web Audio Chromium')
+  assert len(decoded)==44;ok('44 entrées audio réellement décodés par Web Audio Chromium')
   tile=lambda id:page.locator(f'.sound-card[data-id="{id}"] .play-sound')
   tile('wolf').click();page.wait_for_selector('[data-id="wolf"].is-active');ok('lecture d’un effet réel')
   tile('night').click();page.wait_for_selector('[data-id="night"].is-active')
@@ -33,9 +33,19 @@ try:
   custom=page.locator('.sound-card:has-text("Test personnel")');custom.locator('.play-sound').click();page.wait_for_selector('.sound-card.is-active:has-text("Test personnel")');ok('import IndexedDB et lecture du fichier personnel')
   custom.get_by_role('button',name='Modifier Test personnel',exact=True).click();page.locator('#sound-name').fill('Test renommé');page.locator('#save-sound').click();page.wait_for_selector('.sound-card:has-text("Test renommé")');ok('renommage')
   page.reload();page.wait_for_selector('.sound-card:has-text("Test renommé")');assert page.locator('#effects-volume').input_value()=='31';assert page.locator('#ambience-volume').input_value()=='22';assert page.locator('[data-id="wolf"] .favorite-toggle').get_attribute('aria-pressed')=='true';ok('persistance après rechargement : sons, favoris et volumes')
-  page.locator('.sound-card:has-text("Test renommé")').get_by_role('button',name='Supprimer Test renommé',exact=True).click();page.wait_for_function('document.querySelectorAll(".sound-card").length===32');page.reload();page.wait_for_function('document.querySelectorAll(".sound-card").length===32');ok('suppression persistante du son personnel')
+  page.locator('.sound-card:has-text("Test renommé")').get_by_role('button',name='Supprimer Test renommé',exact=True).click();page.wait_for_function('document.querySelectorAll(".sound-card").length===44');page.reload();page.wait_for_function('document.querySelectorAll(".sound-card").length===44');ok('suppression persistante du son personnel')
   page.locator('[data-category=personnages]').click();assert page.locator('.sound-card').count()==9
   page.locator('[data-category=all]').click();ok('navigation par catégories')
+  page.locator('[data-category=halloween]').click();assert page.locator('.sound-card').count()==12
+  assert page.get_by_role('heading',name='Halloween',exact=True).count()==1
+  tile('hw-child').click();page.wait_for_selector('[data-id="hw-child"].is-active');page.locator('#stop-all').click()
+  page.locator('#search').fill('tronconneuse');assert page.locator('.sound-card').count()==1;page.locator('#search').fill('')
+  for hid in ['hw-song','hw-glass','hw-saw','hw-chainsaw','hw-knock','hw-creak','hw-chains','hw-ghost']:
+   tile(hid).click();page.wait_for_selector(f'[data-id="{hid}"].is-active');page.locator('#stop-all').click()
+  ok('Halloween : 12 sons CC0, recherche et lecture des nouveaux fichiers')
+  page.locator('[data-id="hw-knock"] .favorite-toggle').click();page.reload();page.wait_for_selector('.sound-card')
+  page.locator('[data-category=halloween]').click();assert page.locator('[data-id="hw-knock"] .favorite-toggle').get_attribute('aria-pressed')=='true'
+  ok('favori Halloween conservé après rechargement')
   page.set_viewport_size({'width':390,'height':844});assert page.evaluate('document.documentElement.scrollWidth <= innerWidth');stop=page.locator('#stop-all').bounding_box();assert stop['y']+stop['height']<=844
   page.screenshot(path='/tmp/veillee-mobile.png',full_page=True);ok('mobile 390 px : sans défilement horizontal et STOP visible')
   for width in [320,360,768,1440]:
@@ -43,7 +53,7 @@ try:
   ok('largeurs 320, 360, 768 et 1440 px')
   page.set_viewport_size({'width':1440,'height':1000});page.screenshot(path='/tmp/veillee-desktop.png',full_page=True)
   page.wait_for_function('document.querySelector("#offline-status").textContent.includes("Prête")',timeout=30000)
-  context.set_offline(True);page.reload();page.wait_for_selector('.sound-card');tile('wolf').click();page.wait_for_selector('[data-id="wolf"].is-active');page.goto(url+'credits.html');assert page.get_by_role('heading',name='Les voix de la veillée.').count()==1;ok('rechargement, lecture et crédits hors ligne')
+  context.set_offline(True);page.reload();page.wait_for_selector('.sound-card');page.locator('[data-category=halloween]').click();tile('hw-knock').click();page.wait_for_selector('[data-id="hw-knock"].is-active');page.goto(url+'credits.html');assert page.get_by_role('heading',name='Les voix de la veillée.').count()==1;ok('rechargement, lecture et crédits hors ligne')
   context.set_offline(False)
   bad=browser.new_context(service_workers='block');bp=bad.new_page();bp.on('pageerror',lambda e:errors.append(str(e)))
   bp.route('**/assets/audio/owl.wav',lambda route:route.fulfill(status=404,body='missing'))

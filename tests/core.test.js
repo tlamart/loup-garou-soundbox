@@ -14,8 +14,8 @@ class Context {
 globalThis.window = { AudioContext: Context };
 globalThis.fetch = async () => ({ ok: true, arrayBuffer: async () => new ArrayBuffer(16) });
 const sound = (id, loop = false) => ({ id, loop, src: `${id}.wav`, volume: .7 });
-test('32 sons uniques avec un vrai fichier WAV non silencieux et un manifeste complet', () => {
-  assert.equal(sounds.length, 32); assert.equal(new Set(sounds.map(s => s.id)).size, 32);
+test('44 sons uniques avec un vrai fichier WAV non silencieux et un manifeste complet', () => {
+  assert.equal(sounds.length, 44); assert.equal(new Set(sounds.map(s => s.id)).size, 44);
   for (const s of sounds) {
     for (const key of ['id','name','category','icon','src','loop','volume']) assert.notEqual(s[key], undefined);
     const path = new URL(`../${s.src}`, import.meta.url); assert.ok(existsSync(path));
@@ -65,11 +65,11 @@ test('persistance des favoris et volumes, stockage indisponible et JSON corrompu
   assert.equal(savePreferences(prefs),false); assert.deepEqual(loadPreferences(),{});
 });
 
-test('les 25 sources CC0 correspondent aux fichiers livrés et à leurs durées', async () => {
+test('les 37 entrées CC0 correspondent aux fichiers livrés et à leurs durées', async () => {
   const { createHash } = await import('node:crypto');
   const sources = JSON.parse(readFileSync(new URL('../assets/licenses/sources.json', import.meta.url)));
-  assert.equal(Object.keys(sources).length,25);
-  assert.equal(sounds.filter(s => s.license === 'CC0 1.0').length,25);
+  assert.equal(Object.keys(sources).length,37);
+  assert.equal(sounds.filter(s => s.license === 'CC0 1.0').length,37);
   for (const [id, source] of Object.entries(sources)) {
     const s=sounds.find(s => s.id===id);
     const bytes=readFileSync(new URL(`../${s.src}`,import.meta.url));
@@ -79,4 +79,18 @@ test('les 25 sources CC0 correspondent aux fichiers livrés et à leurs durées'
     assert.equal(source.licenseUrl,'https://creativecommons.org/publicdomain/zero/1.0/');
     assert.ok(source.licenseEvidence.includes('publicdomain/zero/1.0/'));
   }
+});
+
+
+test('Halloween propose les neuf sons demandés et trois extras, tous sous CC0', () => {
+  const halloween = sounds.filter(s => s.category === 'halloween');
+  assert.equal(halloween.length, 12);
+  const required = ['Cri strident', 'Rire d’enfant', 'Chansonnette', 'Coup de tonnerre', 'Rire diabolique', 'Verre qui se casse', 'Scie', 'Tronçonneuse', 'Frappe à la porte'];
+  for (const name of required) assert.ok(halloween.some(s => s.name === name), name);
+  for (const s of halloween) assert.equal(s.license, 'CC0 1.0', s.name);
+  for (const [alias, original] of [['hw-scream','scream'],['hw-thunder','thunder'],['hw-evil','evil']]) {
+    assert.equal(sounds.find(s=>s.id===alias).src,sounds.find(s=>s.id===original).src);
+  }
+  const worker=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
+  for (const s of halloween.filter(s=>!['hw-scream','hw-thunder','hw-evil'].includes(s.id))) assert.ok(worker.includes(`'${s.id}'`), s.id);
 });
