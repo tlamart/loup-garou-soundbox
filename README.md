@@ -30,11 +30,11 @@ Favoris et volumes sont conservés dans localStorage. Les fichiers personnels so
 
 Après une première visite complète en HTTPS ou localhost, attendre **« Prête pour vos nuits hors ligne »**. Les 32 sons et tous les fichiers nécessaires sont alors en cache. Le site peut être rechargé sans réseau. Les imports restent dans IndexedDB et ne dépendent pas du cache réseau.
 
-Le navigateur peut supprimer ses données en cas de manque d’espace, d’effacement manuel ou de navigation privée. Conserver les fichiers personnels originaux. Les paramètres et sons ne sont pas synchronisés entre appareils. Pour mettre à jour les ressources du site, augmenter le nom de cache `la-veillee-v2` dans `sw.js` et `js/app.js`.
+Le navigateur peut supprimer ses données en cas de manque d’espace, d’effacement manuel ou de navigation privée. Conserver les fichiers personnels originaux. Les paramètres et sons ne sont pas synchronisés entre appareils. Pour mettre à jour les ressources du site, augmenter le nom de cache `la-veillee-v3` dans `sw.js` et `js/app.js`.
 
 ## Sons disponibles et provenance
 
-**32 sons réellement présents**, au format WAV mono PCM 16 bits, 22 050 Hz, pour environ **7,3 Mo** au total. Depuis la mise à jour CC0, 25 effets ou ambiances proviennent de Freesound avec une licence CC0 1.0 vérifiée sur leur fiche ; 7 effets musicaux ou fantastiques restent des créations procédurales originales. Tous les sons sont fournis dans le dépôt et ne chargent aucun fichier audio externe.
+**44 boutons avec un vrai son (41 fichiers distincts)**, au format WAV mono PCM 16 bits, 22 050 Hz, pour environ **10,0 Mo** au total. 34 fichiers proviennent de Freesound avec une licence CC0 1.0 vérifiée sur leur fiche, utilisés dans 37 entrées du catalogue ; 7 effets restent des créations procédurales originales. Tous les sons sont fournis dans le dépôt et ne chargent aucun fichier audio externe.
 
 `SOUND_SOURCES.md`, `credits.html` et `assets/licenses/sources.json` détaillent les auteurs, les fiches originales, la licence, les durées et les traitements. Les versions importées sont les préécoutes MP3 haute qualité de Freesound, converties en WAV ; pas les masters originaux. Les effets longs ont été raccourcis, les volumes normalisés, et les deux ambiances raccordées pour la boucle.
 
@@ -84,9 +84,17 @@ Le test navigateur optionnel `python tests/browser_qa.py` nécessite Playwright 
 
 ## Limites connues
 
-- Sept effets musicaux ou fantastiques restent synthétisés ; les 25 autres sont des fichiers CC0 importés. La fidélité des préécoutes MP3 source et le format mono limitent la qualité par rapport aux masters.
+- Sept effets musicaux ou fantastiques restent synthétisés ; les 37 autres entrées utilisent des fichiers CC0 importés. La fidélité des préécoutes MP3 source et le format mono limitent la qualité par rapport aux masters.
 - La lecture dépend des formats pris en charge par le navigateur ; WAV PCM et MP3 sont conseillés pour les imports.
 - iOS et Android peuvent interrompre l’audio lors du verrouillage de l’écran ou d’un appel. Le premier clic autorise la lecture ; une restriction du navigateur produit un message invitant à réessayer.
 - Une ressource absente ou illisible est désactivée explicitement sans bloquer les autres sons. Recharger la page après réparation du fichier.
 - Les gros fichiers compressés peuvent occuper beaucoup plus de mémoire une fois décodés. Privilégier des effets courts.
 - Projet indépendant, non affilié aux auteurs ou à l’éditeur du jeu.
+
+## Halloween
+
+L’onglet 🎃 Halloween regroupe 12 sons : cri strident, rire d’enfant, chansonnette, coup de tonnerre, rire diabolique, verre brisé, scie, tronçonneuse, frappe à la porte, porte qui grince, chaînes hantées et souffle spectral. Les 12 utilisent des sons CC0 ; les trois effets déjà présents sont réutilisés sans recopier leurs fichiers. Les favoris, la recherche, les volumes et le STOP fonctionnent aussi dans cet onglet. Les imports personnels peuvent être classés dans Halloween.
+
+Les nouveaux fichiers sont courts, normalisés et inclus dans le cache hors ligne v3. Après une mise à jour, laisser le nouveau cache se télécharger puis recharger l’onglet. Les préférences et IndexedDB ne sont pas effacés.
+
+Le script de maintenance optionnel `python scripts/import_halloween.py` télécharge neuf préécoutes haute qualité depuis leurs fiches Freesound, exige un lien CC0 sur chacune, prépare des WAV avec FFmpeg et met à jour les crédits et empreintes. Python, Node et FFmpeg sont nécessaires uniquement à cette préparation ; le site publié reste entièrement statique, sans dépendance.

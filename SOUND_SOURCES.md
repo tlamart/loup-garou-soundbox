@@ -1,6 +1,6 @@
 # Sources sonores — La Veillée
 
-Mise à jour du 20 octobre 2026 : **25 fichiers importés depuis Freesound sous CC0 1.0**, et **7 créations synthétisées originales**. Les 32 fichiers sont livrés localement dans `assets/audio/` et n’utilisent aucun lecteur ou lien audio externe.
+Mise à jour du 30 octobre 2026 : **34 fichiers importés depuis Freesound sous CC0 1.0**, et **7 créations synthétisées originales**. Les 41 fichiers servent 44 boutons (dont 3 réutilisations dans Halloween) et sont livrés localement dans `assets/audio/` et n’utilisent aucun lecteur ou lien audio externe.
 
 ## Fichiers CC0
 
@@ -53,3 +53,22 @@ Créations procédurales originales réalisées pour ce projet par l’assistant
 | Victoire des loups-garous | `assets/audio/wolves.wav` | Synthèse originale ; aucune source tierce |
 
 Le « Cri théâtral » utilise un enregistrement CC0 de Freesound ; il ne s’agit pas du cri Wilhelm.
+
+## Sélection Halloween — 30 octobre 2026
+
+Les neuf nouveaux fichiers ont une licence CC0 vérifiée sur leur fiche. Trois boutons réutilisent les fichiers CC0 déjà présents (cri, tonnerre, rire diabolique), sans dupliquer les données audio. La chansonnette est un extrait fredonné de la composition originale « Devil’s Waltz » d’AlucardsBride.
+
+| Son | Fichier local | Auteur | Source | Licence | Durée |
+|---|---|---|---|---|---|
+| Cri strident | `assets/audio/scream.wav` | freesound | [Freesound](https://freesound.org/people/freesound/sounds/50156/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 3.760 s |
+| Rire d’enfant | `assets/audio/hw-child.wav` | Teumova | [Freesound](https://freesound.org/people/Teumova/sounds/439667/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 3.930 s |
+| Chansonnette | `assets/audio/hw-song.wav` | AlucardsBride | [Freesound](https://freesound.org/people/AlucardsBride/sounds/193939/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 20.000 s |
+| Coup de tonnerre | `assets/audio/thunder.wav` | Dave_Girtsman | [Freesound](https://freesound.org/people/Dave_Girtsman/sounds/332543/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 13.829 s |
+| Rire diabolique | `assets/audio/evil.wav` | ckvoiceover | [Freesound](https://freesound.org/people/ckvoiceover/sounds/401332/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 3.847 s |
+| Verre qui se casse | `assets/audio/hw-glass.wav` | reg7783 | [Freesound](https://freesound.org/people/reg7783/sounds/204185/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 3.757 s |
+| Scie | `assets/audio/hw-saw.wav` | Kate_is_yellow | [Freesound](https://freesound.org/people/Kate_is_yellow/sounds/708202/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 6.908 s |
+| Tronçonneuse | `assets/audio/hw-chainsaw.wav` | Hard3eat | [Freesound](https://freesound.org/people/Hard3eat/sounds/351775/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 8.404 s |
+| Frappe à la porte | `assets/audio/hw-knock.wav` | Fabrizio84 | [Freesound](https://freesound.org/people/Fabrizio84/sounds/458007/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 5.991 s |
+| Porte qui grince | `assets/audio/hw-creak.wav` | Sandwichbill | [Freesound](https://freesound.org/people/Sandwichbill/sounds/842232/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 3.265 s |
+| Chaînes hantées | `assets/audio/hw-chains.wav` | evantheblonde | [Freesound](https://freesound.org/people/evantheblonde/sounds/368995/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 2.907 s |
+| Souffle spectral | `assets/audio/hw-ghost.wav` | Argon098 | [Freesound](https://freesound.org/people/Argon098/sounds/338344/) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | 6.276 s |
